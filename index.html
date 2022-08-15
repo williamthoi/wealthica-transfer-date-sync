@@ -65,7 +65,7 @@
       }
     } );
   </script>
-  <script>
+  <!-- <script>
       $('#findUnsyncedTransfers').on('click', function () {
         $(this).attr('disabled', 'disabled');
         console.log("hi")
@@ -105,7 +105,7 @@
           $('#getTransactions').removeAttr('disabled');
         });
       });
-  </script>
+  </script> -->
   <script type="text/javascript">
     var addon, addonOptions;
 
@@ -136,7 +136,45 @@
         });
       });
 
- 
+      $('#findUnsyncedTransfers').on('click', function () {
+        $(this).attr('disabled', 'disabled');
+        console.log("hi")
+        addon.api.getTransactions(getQueryFromOptions(addonOptions)).then(function (response) {
+        const transferList = [];
+          for (let i = 0; i< response.length; i++){
+            tx = response[i];
+            if (tx.curreny_amount < 0) {
+              continue;
+            }
+            
+            if (tx.type == 'withdrawal' || tx.type == 'transfer') {
+              for (let j = i; j< response.length; j++ ) {
+                similarTx = response[j]
+
+                if ( Math.abs(new Date(similarTx.date) - new Date(tx.date)) > 5) {
+                  break;
+                }
+
+                if (similarTx.type != 'deposit' && similarTx.type != 'transfer') {
+                  continue;
+                }
+                if (similarTx.currency_amount != -(tx.currency_amount)) {
+                  continue;
+                }
+                
+                transferList.push([{...response[i]}, {...response[j]}])
+
+              }
+            }
+          }
+
+          $('#result').html('Found Transactions Result:<br><code>' + JSON.stringify(transferList, null, '\t') + '</code>');
+        }).catch(function (err) {
+          $('#result').html('Error:<br><code>' + err + '</code>');
+        }).finally(function () {
+          $('#getTransactions').removeAttr('disabled');
+        });
+      });
 
       // Show addon data in result box and optionally update the text input.
       function showAddonData(data, updateInput) {
