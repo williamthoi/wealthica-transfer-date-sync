@@ -18,7 +18,7 @@
 
 </head>
 <body>
-  <h3>This is the Wealthica Example Add-on. v1</h3>
+  <h3>This is the Wealthica Example Add-on. v1.1</h3>
   <p>Try some of the actions below:</p>
   <label for="from">From</label>
   <input type="text" id="from" name="from">
@@ -153,6 +153,10 @@
 
                 if ( Math.abs(new Date(similarTx.date) - new Date(tx.date)) > 5) {
                   break;
+                }
+
+                if ( Math.abs(new Date(similarTx.date) - new Date(tx.date)) == 0) {
+                  continue;
                 }
 
                 if (similarTx.type != 'deposit' && similarTx.type != 'transfer') {
