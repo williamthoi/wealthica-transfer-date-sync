@@ -27,6 +27,9 @@
   <p>
     <button type="button" disabled="disabled" id="getTransactions">List Transactions</button>
   </p>
+  <p>
+    <button type="button" id="testTransactions">Test Transactions</button>
+  </p>
   <textarea id="data" rows="8" cols="100"></textarea>
   <div id="result"></div>
   <script>
@@ -61,7 +64,16 @@
         return date;
       }
     } );
-    </script>
+  </script>
+  <script>
+    $('#testTransactions').on('click', function () {
+      var dateFormat = "mm/dd/yy",
+      fromDate = $( "#from" ).datepicker("getDate") != null ? $( "#from" ).datepicker("getDate") : new Date(new Date().getFullYear(), 0, 1);
+      toDate = $( "#to" ).datepicker("getDate") != null ? $( "#to" ).datepicker("getDate") : new Date().toLocaleDateString();
+      $('#result').html('Test Transactions Result:' + fromDate + " " + toDate );
+      
+    });
+  </script>
   <script type="text/javascript">
     var addon, addonOptions;
 
