@@ -152,13 +152,14 @@
                   break;
                 }
 
+                if (similarTx.type != 'deposit' && similarTx.type != 'transfer') {
+                  continue;
+                }
+                
                 if ( Math.abs(new Date(similarTx.date) - new Date(tx.date)) == 0) {
                   continue;
                 }
 
-                if (similarTx.type != 'deposit' && similarTx.type != 'transfer') {
-                  continue;
-                }
                 if (similarTx.currency_amount != -1 * (tx.currency_amount)) {
                   continue;
                 }
