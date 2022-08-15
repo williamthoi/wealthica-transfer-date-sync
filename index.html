@@ -25,10 +25,10 @@
   <label for="to">to</label>
   <input type="text" id="to" name="to">
   <p>
-    <button type="button" disabled="disabled" id="getTransactions">List Transactions</button>
+    <button type="button" id="getTransactions">List Transactions</button>
   </p>
   <p>
-    <button type="button" disabled="disabled" id="findUnsyncedTransfers">Find Unsynced Transfers</button>
+    <button type="button" id="findUnsyncedTransfers">Find Unsynced Transfers</button>
   </p>
   <textarea id="data" rows="8" cols="100"></textarea>
   <div id="result"></div>
@@ -65,6 +65,47 @@
       }
     } );
   </script>
+  <script>
+      $('#findUnsyncedTransfers').on('click', function () {
+        $(this).attr('disabled', 'disabled');
+        console.log("hi")
+        addon.api.getTransactions(getQueryFromOptions(addonOptions)).then(function (response) {
+        const transferList = [];
+          for (let i = 0; i< response.length; i++){
+            tx = response[i];
+            if (tx.curreny_amount < 0) {
+              continue;
+            }
+            
+            if (tx.type == 'withdrawal' || tx.type == 'transfer') {
+              for (let j = i; j< response.length; j++ ) {
+                similarTx = response[j]
+
+                if ( Math.abs(new Date(similarTx.date) - new Date(tx.date)) > 5) {
+                  break;
+                }
+
+                if (similarTx.type != 'deposit' && similarTx.type != 'transfer') {
+                  continue;
+                }
+                if (similarTx.currency_amount != -(tx.currency_amount)) {
+                  continue;
+                }
+                
+                transferList.push([{...response[i]}, {...response[j]}])
+
+              }
+            }
+          }
+
+          $('#result').html('Found Transactions Result:<br><code>' + JSON.stringify(transferList, null, '\t') + '</code>');
+        }).catch(function (err) {
+          $('#result').html('Error:<br><code>' + err + '</code>');
+        }).finally(function () {
+          $('#getTransactions').removeAttr('disabled');
+        });
+      });
+  </script>
   <script type="text/javascript">
     var addon, addonOptions;
 
@@ -95,47 +136,7 @@
         });
       });
 
-      $('#findUnsyncedTransfers').on('click', function () {
-        $(this).attr('disabled', 'disabled');
-
-        addon.api.getTransactions(getQueryFromOptions(addonOptions)).then(function (response) {
-        
-        const transferList = [];
-          for (let i = 0; i< response.length; i++){
-            tx = JSON.parse(response[i]);
-            if (tx.curreny_amount < 0) {
-              continue;
-            }
-
-            if (tx.type == 'withdrawal' || tx.type == 'transfer') {
-              for (let j = i; j< response.length(); j++ ) {
-                similarTx = JSON.parse(response[j])
-
-                if ( Math.abs(new Date(similarTx.date) - new Date(tx.date))> 5) {
-                  break;
-                }
-                
-                if (similarTx.type != 'deposit' || similarTx.type != 'transfer') {
-                  continue;
-                }
-
-                if (similarTx.currency_amount != -(tx.currency_amount)) {
-                  continue;
-                }
-                
-                transferList.push([{...response[i]}, {...response[j]}])
-
-              }
-            }
-          }
-
-          $('#result').html('Found Transactions Result:<br><code>' + JSON.stringify(transferList) + '</code>');
-        }).catch(function (err) {
-          $('#result').html('Error:<br><code>' + err + '</code>');
-        }).finally(function () {
-          $('#getTransactions').removeAttr('disabled');
-        });
-      });
+ 
 
       // Show addon data in result box and optionally update the text input.
       function showAddonData(data, updateInput) {
