@@ -101,7 +101,7 @@
         addon.api.getTransactions(getQueryFromOptions(addonOptions)).then(function (response) {
         
         const transferList = [];
-          for (let i = 0; i< response.length(); i++){
+          for (let i = 0; i< response.length; i++){
             tx = JSON.parse(response[i]);
             if (tx.curreny_amount < 0) {
               continue;
