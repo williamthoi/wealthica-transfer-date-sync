@@ -102,8 +102,8 @@
 
       // Compose a query object from the addon options to pass to the API calls.
       function getQueryFromOptions (options) {
-        fromDate = ( "#from" ).getDate != null ? ( "#from" ).getDate : new Date(new Date().getFullYear(), 0, 1);
-        toDate = ( "#to" ).getDate != null ? ( "#to" ).getDate : new Date().toLocaleDateString();
+        fromDate = ( "#from" ).parseDate( dateFormat, element.value ) != null ? ( "#from" ).parseDate( dateFormat, element.value ) : new Date(new Date().getFullYear(), 0, 1);
+        toDate = ( "#to" ).parseDate( dateFormat, element.value ) != null ? ( "#to" ).parseDate( dateFormat, element.value ) : new Date().toLocaleDateString();
         return {
           from: fromDate,
           to: toDate,
