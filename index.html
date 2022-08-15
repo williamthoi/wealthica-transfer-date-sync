@@ -129,7 +129,7 @@
             }
           }
 
-          $('#result').html('Found Transactions Result:<br><code>' + JSON.stringify(JSON.parse(transferList),null,2) + '</code>');
+          $('#result').html('Found Transactions Result:<br><code>' + JSON.stringify(transferList) + '</code>');
         }).catch(function (err) {
           $('#result').html('Error:<br><code>' + err + '</code>');
         }).finally(function () {
