@@ -107,7 +107,7 @@
               continue;
             }
 
-            if (tx.type == 'deposit' || tx.type == 'transfer') {
+            if (tx.type == 'withdrawal' || tx.type == 'transfer') {
               for (let j = i; j< response.length(); j++ ) {
                 similarTx = JSON.parse(response[j])
 
@@ -115,7 +115,7 @@
                   break;
                 }
                 
-                if (similarTx.type != 'withdrawal' || similarTx.type != 'transfer') {
+                if (similarTx.type != 'deposit' || similarTx.type != 'transfer') {
                   continue;
                 }
 
@@ -123,7 +123,7 @@
                   continue;
                 }
                 
-                transferList.push([response[j], response[i]])
+                transferList.push([response[i], response[j]])
 
               }
             }
