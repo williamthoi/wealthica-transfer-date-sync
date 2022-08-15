@@ -143,9 +143,6 @@
         const transferList = [];
           for (let i = 0; i< response.length; i++){
             tx = response[i];
-            if (tx.curreny_amount < 0) {
-              continue;
-            }
             
             if (tx.type == 'withdrawal' || tx.type == 'transfer') {
               for (let j = i; j< response.length; j++ ) {
@@ -159,14 +156,10 @@
                   continue;
                 }
 
-                if (similarTx.curreny_amount > 0) {
-                  continue;
-                }
-
                 if (similarTx.type != 'deposit' && similarTx.type != 'transfer') {
                   continue;
                 }
-                if (similarTx.currency_amount != -(tx.currency_amount)) {
+                if (similarTx.currency_amount != -1 * (tx.currency_amount)) {
                   continue;
                 }
                 
