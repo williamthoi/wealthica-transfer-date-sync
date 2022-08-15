@@ -18,7 +18,7 @@
 
 </head>
 <body>
-  <h3>This is the Wealthica Example Add-on. v1.2</h3>
+  <h3>This is the Wealthica Example Add-on. v1.3</h3>
   <p>Try some of the actions below:</p>
   <label for="from">From</label>
   <input type="text" id="from" name="from">
@@ -69,29 +69,44 @@
       $('#findUnsyncedTransfers').on('click', function () {
         $(this).attr('disabled', 'disabled');
         console.log("hi")
-        addon.api.getTransactions(getQueryFromOptions(addonOptions)).then(function (response) {
-        const transferList = [];
+        response=[
+          {"_id":"62f3b4261bccbfa4addf8eb8","security":{"_id":"578791af3883625d0b4e9ba6","currency":"usd","symbol":"NOK","type":"equity","name":"NOKIA","id":"578791af3883625d0b4e9ba6"},"description":"Nokia ADR representing one Series A: 26-JUL-22 (record date) 30.0000 shares, gross 0.36 USD, convert to CAD @ 1.2894","symbol":"NOK","date":"2022-08-09T00:00:00.000Z","settlement_date":"2022-08-09T00:00:00.000Z","processing_date":"2022-08-09T00:00:00.000Z","type":"dividend","origin_type":"Dividend","origin_id":"transaction-IuaZH8jaAQJdrSSE3aQ8mLPzyQc","quantity":0,"currency_amount":0.46,"user":"5fa9718935648e4cc575e836","institution":"5fa971c3155f4b1bcb3955bd","investment":"tfsa-jq0duprm:tfsa:cad","other_parties":[],"history":[],"incomplete":[],"__v":0,"id":"62f3b4261bccbfa4addf8eb8"},{"_id":"62f3cfdec2036153ff7fd966","date":"2022-08-09T00:00:00.000Z","processing_date":"2022-08-09T00:00:00.000Z","description":"EFT Withdrawal to AMEX","type":"withdrawal","origin_type":"WITHDRAWAL","origin_id":"681244551","currency_amount":-681.95,"user":"5fa9718935648e4cc575e836","institution":"5fa9723135648ee2ca75e83b","investment":"3029607553:cash:cad","other_parties":[],"history":[],"incomplete":[],"__v":0,"id":"62f3cfdec2036153ff7fd966"},{"_id":"62f3cfe6c203615b1b7fd968","date":"2022-08-09T00:00:00.000Z","processing_date":"2022-08-09T00:00:00.000Z","description":"PREAUTHORIZED PAYMENT","type":"deposit","origin_type":"CC_BP","origin_id":"681447423","currency_amount":345.25,"user":"5fa9718935648e4cc575e836","institution":"5fa9723135648ee2ca75e83b","investment":"5360xxxxxxxx2016:credit:cad","other_parties":[],"history":[],"incomplete":[],"__v":0,"id":"62f3cfe6c203615b1b7fd968"},{"_id":"62f5b1af0f95b849a805fd7b","description":"UBER EATS TORONTO","date":"2022-08-09T00:00:00.000Z","processing_date":"2022-08-09T00:00:00.000Z","type":"withdrawal","origin_type":"PURCHASE_EXPENSE","origin_id":"95964917","category":"Restaurants/Dining","currency_amount":-24.81,"user":"5fa9718935648e4cc575e836","institution":"6164cf565016f45ce2824987","investment":"14073428:credit:cad","other_parties":[],"history":[],"incomplete":[],"__v":0,"id":"62f5b1af0f95b849a805fd7b"},{"_id":"62f5b1af0f95b886f405fd7c","description":"PAYMENT RECEIVED - THANK YOU","date":"2022-08-09T00:00:00.000Z","processing_date":"2022-08-09T00:00:00.000Z","type":"transfer","origin_type":"PAYMENT_TRANSFER","origin_id":"95964918","category":"Credit Card Payments","currency_amount":681.95,"user":"5fa9718935648e4cc575e836","institution":"6164cf565016f45ce2824987","investment":"14073428:credit:cad","other_parties":[],"history":[],"incomplete":[],"__v":0,"id":"62f5b1af0f95b886f405fd7c"},{"_id":"62f5b1af0f95b8c0e605fd7a","description":"UBER EATS TORONTO","date":"2022-08-09T00:00:00.000Z","processing_date":"2022-08-09T00:00:00.000Z","type":"withdrawal","origin_type":"PURCHASE_EXPENSE","origin_id":"95964916","category":"Restaurants/Dining","currency_amount":-2.19,"user":"5fa9718935648e4cc575e836","institution":"6164cf565016f45ce2824987","investment":"14073428:credit:cad","other_parties":[],"history":[],"incomplete":[],"__v":0,"id":"62f5b1af0f95b8c0e605fd7a"},{"_id":"62f660ff72a9d62c5415e0eb","security":{"_id":"571e80eabd55160700ff5cda","currency":"cad","symbol":"VFV","type":"equity","name":"VANGUARD S&P 500 ETF","id":"571e80eabd55160700ff5cda"},"description":"Bought 11.0 of VFV - Vanguard S&P 500 Index ETF for 1039.39 CAD","symbol":"VFV","date":"2022-08-09T00:00:00.000Z","settlement_date":"2022-08-11T00:00:00.000Z","processing_date":"2022-08-09T00:00:00.000Z","type":"buy","origin_type":"Buy","origin_id":"transaction-lcsJHrOjpvGx3pEBxTdOUxhMgfk","quantity":11,"currency_amount":-1039.39,"user":"5fa9718935648e4cc575e836","institution":"5fa971c3155f4b1bcb3955bd","investment":"rrsp-qhans6i2:rrsp:cad","other_parties":[],"history":[],"incomplete":[],"__v":0,"id":"62f660ff72a9d62c5415e0eb"},{"_id":"62f660ff72a9d644e915e0ec","security":{"_id":"5d44f5aab2a46d8c74627939","currency":"cad","symbol":"TEC","type":"equity","name":"TD GLOBAL TECH LEADER ETF","id":"5d44f5aab2a46d8c74627939"},"description":"Bought 42.0 of TEC - TD Global Technology Leaders Index ETF for 1010.94 CAD","symbol":"TEC","date":"2022-08-09T00:00:00.000Z","settlement_date":"2022-08-11T00:00:00.000Z","processing_date":"2022-08-09T00:00:00.000Z","type":"buy","origin_type":"Buy","origin_id":"transaction-W07ec5enwAR8OgiCmjl_f2RJGZk","quantity":42,"currency_amount":-1010.94,"user":"5fa9718935648e4cc575e836","institution":"5fa971c3155f4b1bcb3955bd","investment":"rrsp-qhans6i2:rrsp:cad","other_parties":[],"history":[],"incomplete":[],"__v":0,"id":"62f660ff72a9d644e915e0ec"},{"_id":"62f520ecdc2bb77ef82a4949","date":"2022-08-10T00:00:00.000Z","processing_date":"2022-08-10T00:00:00.000Z","description":"EFT Tangerine Credit Card Payment to TANGERINE CCRD","type":"withdrawal","origin_type":"WITHDRAWAL","origin_id":"681753716","currency_amount":-345.25,"user":"5fa9718935648e4cc575e836","institution":"5fa9723135648ee2ca75e83b","investment":"3029607553:cash:cad","other_parties":[],"history":[],"incomplete":[],"__v":0,"id":"62f520ecdc2bb77ef82a4949"},{"_id":"62f84e50baad0a148d5275f5","description":"UBER EATS TORONTO","date":"2022-08-10T00:00:00.000Z","processing_date":"2022-08-10T00:00:00.000Z","type":"withdrawal","origin_type":"PURCHASE_EXPENSE","origin_id":"96489175","category":"Restaurants/Dining","currency_amount":-20.06,"user":"5fa9718935648e4cc575e836","institution":"6164cf565016f45ce2824987","investment":"14073428:credit:cad","other_parties":[],"history":[],"incomplete":[],"__v":0,"id":"62f84e50baad0a148d5275f5"},{"_id":"62f84e50baad0a48ac5275f6","description":"UBER EATS TORONTO","date":"2022-08-10T00:00:00.000Z","processing_date":"2022-08-10T00:00:00.000Z","type":"withdrawal","origin_type":"PURCHASE_EXPENSE","origin_id":"96489176","category":"Restaurants/Dining","currency_amount":-1.44,"user":"5fa9718935648e4cc575e836","institution":"6164cf565016f45ce2824987","investment":"14073428:credit:cad","other_parties":[],"history":[],"incomplete":[],"__v":0,"id":"62f84e50baad0a48ac5275f6"}      
+        ]
+        // addon.api.getTransactions(getQueryFromOptions(addonOptions)).then(function (response) { 
+          const transferList = [];
           for (let i = 0; i< response.length; i++){
             tx = response[i];
-            if (tx.curreny_amount < 0) {
-              continue;
-            }
-            
-            if (tx.type == 'withdrawal' || tx.type == 'transfer') {
-              for (let j = i; j< response.length; j++ ) {
+            console.log("start")
+            console.log(tx)
+            if (['deposit', 'transfer', 'withdrawal'].includes(tx.type)) {
+              for (let j = i+1; j< response.length; j++ ) {
                 similarTx = response[j]
-
-                if ( Math.abs(new Date(similarTx.date) - new Date(tx.date)) > 5) {
+                console.log("1")
+                console.log(similarTx)
+                
+                console.log(new Date(similarTx.date))
+                console.log(new Date(tx.date))
+                console.log( Math.abs(new Date(similarTx.date) - new Date(tx.date))/ (1000 * 3600 * 24))
+                if ( Math.abs(new Date(similarTx.date) - new Date(tx.date)) / (1000 * 3600 * 24) > 5) {
                   break;
                 }
-
-                if (similarTx.type != 'deposit' && similarTx.type != 'transfer') {
+                console.log("2")
+                if (tx.type == 'withdrawal' && ['withdrawal'].includes(similarTx.type)) {
                   continue;
                 }
-                if (similarTx.currency_amount != -(tx.currency_amount)) {
+                console.log("2.5")
+                if (tx.type == 'deposit' && ['deposit'].includes(similarTx.type)) {
                   continue;
                 }
-                
+                console.log("3")
+                if ( Math.abs(new Date(similarTx.date) - new Date(tx.date)) / (1000 * 3600 * 24) == 0) {
+                  continue;
+                }
+                console.log("4")
+                if (similarTx.currency_amount != -1 * (tx.currency_amount)) {
+                  continue;
+                }
+                console.log("5")
                 transferList.push([{...response[i]}, {...response[j]}])
 
               }
@@ -99,11 +114,6 @@
           }
 
           $('#result').html('Found Transactions Result:<br><code>' + JSON.stringify(transferList, null, '\t') + '</code>');
-        }).catch(function (err) {
-          $('#result').html('Error:<br><code>' + err + '</code>');
-        }).finally(function () {
-          $('#getTransactions').removeAttr('disabled');
-        });
       });
   </script> -->
   <script type="text/javascript">
@@ -140,30 +150,28 @@
         $(this).attr('disabled', 'disabled');
         console.log("hi")
         addon.api.getTransactions(getQueryFromOptions(addonOptions)).then(function (response) {
-        const transferList = [];
+          const transferList = [];
           for (let i = 0; i< response.length; i++){
             tx = response[i];
-            
-            if (tx.type == 'withdrawal' || tx.type == 'transfer') {
-              for (let j = i; j< response.length; j++ ) {
+            if (['deposit', 'transfer', 'withdrawal'].includes(tx.type)) {
+              for (let j = i+1; j< response.length; j++ ) {
                 similarTx = response[j]
-
-                if ( Math.abs(new Date(similarTx.date) - new Date(tx.date)) > 5) {
+                          
+                if ( Math.abs(new Date(similarTx.date) - new Date(tx.date)) / (1000 * 3600 * 24) > 5) {
                   break;
                 }
-
-                if (similarTx.type != 'deposit' && similarTx.type != 'transfer') {
+                if (tx.type == 'withdrawal' && ['withdrawal'].includes(similarTx.type)) {
                   continue;
                 }
-                
-                if ( Math.abs(new Date(similarTx.date) - new Date(tx.date)) == 0) {
+                if (tx.type == 'deposit' && ['deposit'].includes(similarTx.type)) {
                   continue;
                 }
-
+                if ( Math.abs(new Date(similarTx.date) - new Date(tx.date)) / (1000 * 3600 * 24) == 0) {
+                  continue;
+                }
                 if (similarTx.currency_amount != -1 * (tx.currency_amount)) {
                   continue;
                 }
-                
                 transferList.push([{...response[i]}, {...response[j]}])
 
               }
