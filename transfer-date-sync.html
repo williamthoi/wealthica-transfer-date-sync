@@ -7,22 +7,59 @@
   <style>
     body { margin: 0; padding: 0; }
   </style>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
   <script type="text/javascript" src="https://wealthica.github.io/wealthica.js/dist/addon.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 </head>
 <body>
   <h3>This is the Wealthica Example Add-on.</h3>
   <p>Try some of the actions below:</p>
+  <label for="from">From</label>
+  <input type="text" id="from" name="from">
+  <label for="to">to</label>
+  <input type="text" id="to" name="to">
   <p>
     <button type="button" disabled="disabled" id="getTransactions">List Transactions</button>
-    <button type="button" disabled="disabled" id="getPositions">List Positions</button>
-    <button type="button" disabled="disabled" id="addTransaction">Add Transaction</button>
-    <button type="button" disabled="disabled" id="saveData">Save Data</button>
   </p>
   <textarea id="data" rows="8" cols="100"></textarea>
   <div id="result"></div>
-
+  <script>
+    $( function() {
+      var dateFormat = "mm/dd/yy",
+        from = $( "#from" )
+          .datepicker({
+            defaultDate: "+1w",
+            changeMonth: true,
+            numberOfMonths: 3
+          })
+          .on( "change", function() {
+            to.datepicker( "option", "minDate", getDate( this ) );
+          }),
+        to = $( "#to" ).datepicker({
+          defaultDate: "+1w",
+          changeMonth: true,
+          numberOfMonths: 3
+        })
+        .on( "change", function() {
+          from.datepicker( "option", "maxDate", getDate( this ) );
+        });
+   
+      function getDate( element ) {
+        var date;
+        try {
+          date = $.datepicker.parseDate( dateFormat, element.value );
+        } catch( error ) {
+          date = null;
+        }
+   
+        return date;
+      }
+    } );
+    </script>
   <script type="text/javascript">
     var addon, addonOptions;
 
@@ -41,20 +78,6 @@
         showAddonData(addonOptions.data);
       });
 
-      $('#addTransaction').on('click', function () {
-        $(this).attr('disabled', 'disabled');
-
-        addon.addTransaction({
-          description: "New transaction from Example Add-on"
-        }).then(function (transaction) {
-          $('#result').html('New transaction:<br><code>' + JSON.stringify(transaction) + '</code>');
-        }).catch(function (err) {
-          $('#result').html('Error:<br><code>' + err + '</code>');
-        }).finally(function () {
-          $('#addTransaction').removeAttr('disabled');
-        });
-      });
-
       $('#getTransactions').on('click', function () {
         $(this).attr('disabled', 'disabled');
 
@@ -64,37 +87,6 @@
           $('#result').html('Error:<br><code>' + err + '</code>');
         }).finally(function () {
           $('#getTransactions').removeAttr('disabled');
-        });
-      });
-
-      $('#getPositions').on('click', function () {
-        $(this).attr('disabled', 'disabled');
-
-        addon.api.getPositions(getQueryFromOptions(addonOptions)).then(function (response) {
-          $('#result').html('List Positions Result:<br><code>' + JSON.stringify(response) + '</code>');
-        }).catch(function (err) {
-          $('#result').html('Error:<br><code>' + err + '</code>');
-        }).finally(function () {
-          $('#getPositions').removeAttr('disabled');
-        });
-      });
-
-      $('#saveData').on('click', function () {
-        $(this).attr('disabled', 'disabled');
-        var newData = $('#data').val();
-
-        // Try parsing textarea value to a JSON object before passing to addon.saveData(data)
-        try { newData = JSON.parse(newData) }
-        catch (e) {
-          $('#result').html('Error:<br><code>Data must be JSON</code>');
-          $('#saveData').removeAttr('disabled');
-          return;
-        }
-
-        addon.saveData(newData).catch(function (err) {
-          $('#result').html('Error:<br><code>' + err + '</code>');
-        }).finally(function () {
-          $('#saveData').removeAttr('disabled');
         });
       });
 
@@ -108,9 +100,11 @@
 
       // Compose a query object from the addon options to pass to the API calls.
       function getQueryFromOptions (options) {
+        fromDate = ( "#from" ).getDate != null ? ( "#from" ).getDate : new Date(new Date().getFullYear(), 0, 1);
+        toDate = ( "#to" ).getDate != null ? ( "#to" ).getDate : new Date().toLocaleDateString();
         return {
-          from: options.dateRangeFilter && options.dateRangeFilter[0],
-          to: options.dateRangeFilter && options.dateRangeFilter[1],
+          from: fromDate,
+          to: toDate,
           groups: options.groupsFilter,
           institutions: options.institutionsFilter,
           investments: options.investmentsFilter === 'all' ? null: options.investmentsFilter,
@@ -118,6 +112,7 @@
       }
     });
   </script>
+
 
 </body>
 </html>
